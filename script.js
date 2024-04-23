@@ -154,16 +154,18 @@ function uploadFiles() {
     if (files.length > 0) {
         const formData = new FormData();
         formData.append('file', files[0]);
+        const boundary = '---------------------------' + Date.now().toString(16);
         fetch('http://145.220.74.141:8080/File/upload', {
             method: 'POST',
             headers: {
                 'Accept': '*/*',
-                'Content-Type':'multipart/form-data'
+                // Include boundary parameter in Content-Type header
+                'Content-Type': 'multipart/form-data; boundary=' + boundary
             },
             body: formData
         })
         .then(response => {
-            console.log(response)
+            console.log(response);
             if (!response.ok) {
                 throw new Error('Error uploading files');
             }
@@ -181,3 +183,4 @@ function uploadFiles() {
         alert('Please select files to upload');
     }
 }
+
