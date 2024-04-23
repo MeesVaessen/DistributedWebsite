@@ -14,7 +14,7 @@ async function login2() {
         password: hashedPassword
     };
 
-   return fetch('http://192.168.0.9:8080/User/login', {
+   return fetch('http://145.220.74.141:8080/User/login', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -51,7 +51,7 @@ async function login(){
         password: hashedPassword
     };
 
-    return fetch('http://192.168.0.9:8080/User/login', {
+    return fetch('http://145.220.74.141:8080/User/login', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -154,7 +154,7 @@ function uploadFiles() {
     if (files.length > 0) {
         const formData = new FormData();
         formData.append('file', files[0]);
-        fetch('http://192.168.0.9:8080/File/upload', {
+        fetch('http://145.220.74.141:8080/File/upload', {
             method: 'POST',
             headers: {
                 'Accept': '*/*',
@@ -163,6 +163,7 @@ function uploadFiles() {
             body: formData
         })
         .then(response => {
+            console.log(response)
             if (!response.ok) {
                 throw new Error('Error uploading files');
             }
