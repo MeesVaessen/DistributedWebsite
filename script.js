@@ -153,14 +153,14 @@ function uploadFiles() {
     const files = document.getElementById('fileInput').files;
     if (files.length > 0) {
         const formData = new FormData();
-        formData.append('file', files[0]);
-        const boundary = '---------------------------' + Date.now().toString(16);
+        formData.append('file', files[0], files[0].name); // Specify the filename explicitly
+        formData.append('type', 'text/x-python'); // Specify the file type
+
         fetch('http://145.220.74.141:8080/File/upload', {
             method: 'POST',
             headers: {
                 'Accept': '*/*',
-                // Include boundary parameter in Content-Type header
-                'Content-Type': 'multipart/form-data; boundary=' + boundary
+                // Ensure Content-Type is multipart/form-data, but do not include the boundary here
             },
             body: formData
         })
@@ -183,4 +183,5 @@ function uploadFiles() {
         alert('Please select files to upload');
     }
 }
+
 
