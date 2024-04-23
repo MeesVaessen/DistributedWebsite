@@ -1,0 +1,288 @@
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    list-style: none;
+    scrollbar-color: #373a47 #1a1c24;
+    scrollbar-width: thin;
+}
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+body{
+    background-color: #1c1e27;
+    background-image: linear-gradient(43deg, #1c1e27 50%, #20222a 46%, #22242e 100% );
+    background-repeat: no-repeat;
+    background-size: cover; /* Ensure the background covers the full viewport */
+    background-position: center; /* Center the background image */
+    font-family: "poppins", 'Montserrat', sans-serif; /* Combine font families */
+    overflow: hidden;
+}
+
+.circle {
+    position: absolute;
+    width: 250px;
+    height: 250px;
+    border-radius: 100%; 
+  }
+  
+  .circle:nth-child(1) {
+    background-image: linear-gradient(43deg, #1c1e27 50%, #2a2d37 46%, #22242e 100% );
+    top: 70%;
+    left: -15%;
+    width: 600px;
+    height: 600px;
+  }
+  
+  .circle:nth-child(2) {
+    background-image: linear-gradient(10deg, #14161c 50%, #20222a 46%, #22242e 100% );
+    top: -55%;
+    right: -10%;
+    width: 600px;
+    height: 600px;
+  }
+  
+  .circle:nth-child(3) {
+    background-image: linear-gradient(60deg, #14161c 50%, #20222a 46%, #22242e 100% );
+    top: 60%;
+    left: 73%;
+  }
+    .circle:nth-child(4) {
+    background-image: linear-gradient(110deg, #1c1e27 50%, #2a2d37 46%, #22242e 100% );
+    top: 10%;
+    left: 10%;
+  }
+  .content {
+    position: relative; 
+    z-index: 1;
+    padding: 20px;
+  }
+.loginH1{
+bottom: 0;
+}
+.loginContainer h2{
+    color: black;
+    font-family: 'Montserrat';
+    font-size: 32px;
+    margin-bottom: 20px;
+}
+#loginForm label{
+    font-family: "open sans";
+}
+.loginContainer {
+    max-width: 400px;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    position: fixed; 
+    top: 50%; 
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 40px;
+    border-radius: 3px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 19px 0px;
+}
+.loginContainer p {
+    font-family: "Open Sans";
+    margin-bottom: 20px;
+}
+#loginButton{
+    width: 302px;
+    height: 40px;
+    background-color: #9b84ee;
+    color: #fff;
+    font-family: 'Montserrat';
+    font-weight: 600;
+    border: none;
+    border-radius: 5px;
+    display: flex;
+    margin: 0 auto;
+    transition: 0.4s ease-in-out;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+    font-size: 15px;
+    cursor: pointer;
+  
+}
+
+.loginbutton:hover{
+    background-color: #9b84eea9;
+    transition: 0.4s ease;
+}
+
+.inputbox{
+    padding: 10px 12px;
+    border-radius: 3px;
+    border: 1px solid #808080;
+    flex-direction: column;
+    width: 302px;
+    height: 46px;
+    display: flex;
+    color: black;
+    margin-bottom: 12px;
+
+}
+.dashboard {
+    max-width: 800px;
+    margin: 20px 0px 0px 100px;
+    padding-left: 20px;
+    text-align: center;
+}
+
+.dropbox {
+    border: 2px dashed #ccc;
+    padding: 20px;
+    margin-bottom: 20px;
+    cursor: pointer;
+    background-color: rgba(26, 28, 36, 1);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    height: 300px;
+    width: 500px;
+    position: relative;
+    transition: border-color 0.3s, background-color 0.3s;
+}
+
+#fileInput {
+    display: none;
+}
+
+.dropbox i {
+    position: absolute;
+    top: 70%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 60px;
+    color: #aaa;
+    transition: color 0.3s;
+}
+
+.dropbox p {
+    font-family: "open sans";
+    color: #ddd;
+    margin: 0 auto;
+    padding-bottom: 20px;
+    font-size: 1.2rem;
+}
+
+.dropbox.selected {
+    border-color: green;
+    background-color: #20222a ;
+}
+.dropbox:hover{
+   background-color: #20222a ;
+   transition: 0.2s ease;
+}
+#fileInput {
+    display: none;
+}
+
+.headerDashboard h1{
+    font-family: "Montserrat";
+    
+}
+.error-box {
+    color: red;
+    display: none;
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(255, 0, 0, 0.1);
+    padding: 10px;
+    border-radius: 5px;
+}
+.dropbox.success {
+    border: 2px dashed green;
+    color: green;
+}
+
+#progressBar {
+    width: 0%;
+    height: 2px;
+    background-color: #9b84ee;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: none;
+}
+
+span{
+    color: #9b84ee;
+    text-decoration:line-through    rgb(26, 28, 36);
+}
+.uploadButton {
+    background-color: #9b84ee;
+    color: #ddd;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.4s ease;
+    font-family: "Open sans";
+    display: flex;
+    justify-content: center;
+    align-items: center;    
+}
+
+.uploadButton:hover {
+    background-color: #9b84eea9;
+    transition: 0.4s ease;
+}
+
+.hide {
+    display: none;
+}
+header {
+    background-color: rgb(26, 28, 36);
+    color: #ddd;
+    padding: 20px 0;
+    border-bottom: 2px solid rgb(23, 25, 31, );
+}
+
+.headerDashboard {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline-block;
+    margin-left: 20px;
+}
+
+nav ul li:first-child {
+    margin-left: 0;
+}
+
+nav ul li a {
+    color: #ddd;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+nav ul li a:hover {
+    color: #ddd;
+}
