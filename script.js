@@ -167,7 +167,7 @@ function uploadFiles() {
         .then(response => {
             console.log(response);
             if (!response.ok) {
-                throw new Error('Error uploading files');
+                throw new Error('Success');
             }
             return response.json();
         })
@@ -181,5 +181,22 @@ function uploadFiles() {
         alert('Please select files to upload');
     }
 }
+const socket = new WebSocket('ws://145.220.74.141:8181/File/upload');
 
+socket.addEventListener('message', function(event) {
+    try {
+        const message = JSON.parse(event.data);
+        console.log('Type:', message.Type);
+        console.log('Content:', message.Content);
+    } catch (error) {
+        console.error('Error parsing WebSocket message:', error);
+    }
+});
 
+socket.addEventListener('error', function(event) {
+    console.error('WebSocket error:', event);
+});
+
+socket.addEventListener('close', function(event) {
+    console.log('WebSocket connection closed');
+});
