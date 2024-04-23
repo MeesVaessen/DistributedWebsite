@@ -173,11 +173,9 @@ function uploadFiles() {
         })
         .then(data => {
             console.log('Files uploaded successfully:', data);
-            alert('Files uploaded successfully!');
         })
         .catch(error => {
             console.error('Error:', error);
-            alert('Error uploading files');
         });
     } else {
         alert('Please select files to upload');
