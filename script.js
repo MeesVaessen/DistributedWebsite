@@ -1,25 +1,33 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', async function() {
     const loginButton = document.getElementById('loginButton');
     loginButton.addEventListener('click', login);
+
+    let staticSalt = localStorage.getItem('staticSalt'); // Retrieve salt from local storage
+    if (!staticSalt) {
+        // If salt is not present in local storage, generate a new one
+        staticSalt = await generateSalt();
+        localStorage.setItem('staticSalt', staticSalt); // Store salt in local storage
+    }
+    console.log('Generated salt:', staticSalt); // Log the generated salt
+    loginButton.dataset.salt = staticSalt; // Store the salt as a data attribute
+
+    const passwordInput = document.getElementById('password');
+    passwordInput.addEventListener('input', function() {
+        const hashedPassword = hashPassword(this.value, staticSalt);
+        console.log('Hashed password:', hashedPassword); // Log the hashed password
+    });
 });
 
 async function login() {
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
+    const staticSalt = this.dataset.salt; // Retrieve the stored salt
 
-    const salt = await fetchSalt(username);
-    if (!salt) {
-        console.error('User not found');
-        return;
-    }
-
-    const hashedPassword = await hashPassword(password, salt); 
-    console.log('Generated salt:', salt);
+    const hashedPassword = await hashPassword(password, staticSalt); 
 
     const payload = {
         username: username,
-        password: hashedPassword,
-        salt: salt
+        password: hashedPassword
     };
 
     fetch('http://192.168.0.9:8080/user/login', {
@@ -30,40 +38,15 @@ async function login() {
         body: JSON.stringify(payload)
     })
     .then(async response => {
-        if (response.ok) {
-            const responseData = await response.json();
-        
-            if (responseData.success) {
-                console.log('Login successful');
-                window.location.href = '/dashboard';
-            } else {
-                console.error('Login failed');
-            }
-        } else {
-            console.error('Login failed');
-        }
+        // Handle response
     })
     .catch(error => {
         console.error('Error:', error);
     });
 }
 
-async function fetchSalt(username) {
-    const formData = new FormData();
-    formData.append('username', username);
-
-    const response = await fetch('http://192.168.0.9:8080/user/getsalt', {
-        method: 'POST',
-        body: formData
-    });
-
-    const data = await response.json();
-
-    return data.salt;
-}
-
 async function hashPassword(password, salt) {
-    const saltedPassword = salt + password; // Concatenate the fetched salt with the entered password
+    const saltedPassword = salt + password;
 
     const encoder = new TextEncoder();
     const data = encoder.encode(saltedPassword);
@@ -72,6 +55,16 @@ async function hashPassword(password, salt) {
     const hashedPassword = hashArray.map(byte => byte.toString(16).padStart(2, '0')).join('');
     return hashedPassword;
 }
+
+async function generateSalt() {
+    const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789ge';
+    let salt = '';
+    for (let i = 0; i < 16; i++) {
+        salt += charset.charAt(Math.floor(Math.random() * charset.length));
+    }
+    return salt;
+}
+
 
 
 document.getElementById('dropbox').addEventListener('click', function(event) {
@@ -135,26 +128,26 @@ document.getElementById('fileInput').addEventListener('change', function() {
 function uploadFiles() {
     const files = document.getElementById('fileInput').files;
     const hashInput = document.getElementById('hashInput').value.trim();
-    if (hashInput === '') {
-        alert('Hash is required');
-        return;
-    }
-    else{
-        const requestData = {
-            hash: hashInput
-          };
+    
+    if (files.length > 0) {
+        const formData = new FormData();
+        for (let i = 0; i < files.length; i++) {
+            formData.append('files[]', files[i]);
+        }
+        
 
-        fetch('https://localhost:7275/File/uploadHash', {
+        if (hashInput === '') {
+            alert('Hash is required');
+            return;
+        }
+        
+        formData.append('hash', hashInput);
+        
+        fetch('http://192.168.0.9:8080/file/upload', {
             method: 'POST',
-            headers: {
-                'Accept': '*/*',
-                'Content-Type': 'application/json' // Specify JSON content type
-
-            },
-            body: JSON.stringify(requestData) // Convert JavaScript object to JSON string
+            body: formData
         })
         .then(response => {
-            console.log(response);
             if (!response.ok) {
                 throw new Error('Error uploading files');
             }
@@ -162,11 +155,22 @@ function uploadFiles() {
         })
         .then(data => {
             console.log('Files uploaded successfully:', data);
+            alert('Files uploaded successfully!');
         })
         .catch(error => {
             console.error('Error:', error);
+            alert('Error uploading files');
         });
+    } else {
+        if (hashInput === '') {
+            alert('Please select files to upload and enter hash');
+        } else {
+            alert('Files are not selected, proceeding with hash only');
+
+        }
     }
+}
+
 
     if (files.length > 0) {
         const formData = new FormData();
