@@ -19,7 +19,7 @@
     <body>
         <header>
             <div class="headerDashboard">
-                <h1><span>Dash</span>board </h1>
+                <h1><span class="dash">Dash</span>board </h1>
                 <nav>
                     <ul>
                         <li><a href="/">Login</a></li>
@@ -29,19 +29,21 @@
                 </nav>
             </div>
         </header>
-        
+    
         <div class="dashboard" id="dashboard">
             <label for="fileInput" class="dropbox" id="dropbox">
                 <i class="fa-solid fa-file-arrow-down"></i>
                 <p>Click or drop Python files here to upload</p>
                 <div id="errorBox" class="error-box"></div>
-
-
             </label>
             <div id="progressBar"></div>
             <input type="file" id="fileInput" accept=".py">
+            <input type="text" id="hashInput" placeholder="Enter hash">
+            <span id="answer">hashanswer</span> 
             <button onclick="uploadFiles()" class="uploadButton">Upload</button>
         </div>
-        
+    
+        <script src="scripts.js"></script>
     </body>
+    
     </html>
