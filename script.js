@@ -68,13 +68,18 @@ async function hashPassword(password, salt) {
     return hashedPassword;
 }
 
-async function fetchSaltFromDatabase(username) {
+async function fetchSaltFromDatabase(Username) {
     try {
+        const payload = {
+            username: Username,
+        };
         const response = await fetch('http://145.220.74.141:8080/User/getSalt', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
-            }
+            },
+            body: JSON.stringify(payload)
+
         });
         if (response.ok) {
             const data = await response.json();
