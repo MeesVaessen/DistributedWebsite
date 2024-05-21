@@ -162,7 +162,7 @@ function uploadHash() {
     }
     else{
         const requestData = {
-            hash: hashInput
+            message: hashInput
           };
 
         fetch('http://145.220.74.141:8080/File/sendMessage', {
