@@ -57,16 +57,16 @@ async function login() {
     });
 }
 
-async function hashPassword(password, salt) {
-    const saltedPassword = salt + password;
-
-    const encoder = new TextEncoder();
-    const data = encoder.encode(saltedPassword);
-    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-    const hashArray = Array.from(new Uint8Array(hashBuffer));
-    const hashedPassword = hashArray.map(byte => byte.toString(16).padStart(2, '0')).join('');
-    return hashedPassword;
-}
+//async function hashPassword(password, salt) {
+//    const saltedPassword = salt + password;
+//
+//    const encoder = new TextEncoder();
+//    const data = encoder.encode(saltedPassword);
+//    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+//    const hashArray = Array.from(new Uint8Array(hashBuffer));
+//    const hashedPassword = hashArray.map(byte => byte.toString(16).padStart(2, '0')).join('');
+//    return hashedPassword;
+//}
 
 async function fetchSaltFromDatabase(Username) {
     try {
