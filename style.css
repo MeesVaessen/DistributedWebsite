@@ -132,9 +132,9 @@ bottom: 0;
 }
 #hashInput {
     margin-top: 20px;
+    margin-bottom: 20px;
     padding: 10px 12px;
-    border-radius: 3px;
-    border: 1px solid #808080;
+    border-radius: 3px; 
     width: 300px;
     font-family: "poppins", 'Montserrat', sans-serif;
 }
@@ -150,8 +150,8 @@ bottom: 0;
 }
 
 .dashboard {
-    max-width: 600px; /* Adjusted max-width */
-    margin: 20px auto; /* Center the dashboard */
+    max-width: 1150px;
+    margin: 20px auto;
 }
 
 .dropbox {
@@ -165,8 +165,8 @@ bottom: 0;
     justify-content: center;
     text-align: center;
     align-items: center;
-    height: 200px; /* Reduced height */
-    width: 400px; /* Reduced width */
+    height: 200px;
+    width: 400px;
     position: relative;
     transition: border-color 0.3s, background-color 0.3s;
 }
@@ -189,7 +189,6 @@ bottom: 0;
     font-family: "open sans";
     color: #ddd;
     margin: 0 auto;
-    padding-bottom: 20px;
     font-size: 1.2rem;
 }
 
@@ -241,7 +240,7 @@ bottom: 0;
 }
 .uploadButton {
     background-color: #649568;
-    color: #ddd;
+    color: #fff;
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
