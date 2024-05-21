@@ -71,7 +71,7 @@ async function hashPassword(password, salt) {
 async function fetchSaltFromDatabase(Username) {
     try {
         const payload = {
-            username: Username,
+            name: Username,
         };
         const response = await fetch('http://145.220.74.141:8080/User/getSalt', {
             method: 'POST',
@@ -204,7 +204,7 @@ function uploadHash() {
             method: 'POST',
             headers: {
                 'Accept': '*/*',
-                'Content-Type': 'multipart/form-data' // Specify JSON content type
+               
 
             },
             body :'formData',
