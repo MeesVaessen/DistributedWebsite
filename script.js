@@ -70,7 +70,7 @@ async function hashPassword(password, salt) {
 
 async function fetchSaltFromDatabase(username) {
     try {
-        const response = await fetch('http://145.220.74.141:8080/User/getSalt'}, {
+        const response = await fetch('http://145.220.74.141:8080/User/getSalt', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -158,7 +158,7 @@ function uploadHash() {
             hash: hashInput
           };
 
-        fetch('https://145.220.74.141:8080/File/uploadHash', {
+        fetch('http://145.220.74.141:8080/File/uploadHash', {
             method: 'POST',
             headers: {
                 'Accept': '*/*',
@@ -197,6 +197,11 @@ function uploadHash() {
         fetch('http://145.220.74.141:8080/file/upload', {
         
             method: 'POST',
+            headers: {
+                'Accept': '*/*',
+                'Content-Type': 'multipart/form-data' // Specify JSON content type
+
+            },
             body :'formData',
         })
 
