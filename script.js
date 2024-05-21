@@ -1,3 +1,6 @@
+import bcrypt from 'bcryptjs';
+
+
 document.addEventListener('DOMContentLoaded', async function() {
     const loginButton = document.getElementById('loginButton');
     loginButton.addEventListener('click', login);
@@ -58,15 +61,16 @@ async function login() {
 }
 
 async function hashPassword(password, salt) {
-    const saltedPassword = salt + password;
+   // const saltedPassword = salt + password;
     const hashedPassword = await bcrypt.hash(password, salt);
     console.log("Salt:", salt);
     console.log("Hashed Password:", hashedPassword);
+    return hashedPassword;
 
     //const encoder = new TextEncoder();
-    const data = encoder.encode(saltedPassword);
-    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    //const data = encoder.encode(saltedPassword);
+    //const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+    //const hashArray = Array.from(new Uint8Array(hashBuffer));
     //const hashedPassword = hashArray.map(byte => byte.toString(16).padStart(2, '0')).join('');
     return hashedPassword;
 }
