@@ -1,4 +1,4 @@
-import { genSalt, hash } from '../node_modules/bcryptjs/dist/bcrypt.min.js';
+import { hash } from '../node_modules/bcryptjs/dist/bcrypt.min.js';
 
 
 document.addEventListener('DOMContentLoaded', async function() {
