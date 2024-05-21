@@ -165,14 +165,14 @@ function uploadHash() {
             message: hashInput
           };
 
-        fetch('http://145.220.74.141:8080/File/sendMessage', {
+        fetch('http://145.220.74.141:8080/File/sendMessage?message='+hashInput, {
             method: 'POST',
             headers: {
                 'Accept': '*/*',
                 'Content-Type': 'application/json' // Specify JSON content type
 
             },
-            body: JSON.stringify(requestData) // Convert JavaScript object to JSON string
+            //body: JSON.stringify(requestData) // Convert JavaScript object to JSON string
         })
         .then(response => {
             console.log(response);
