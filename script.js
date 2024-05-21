@@ -43,7 +43,7 @@ async function login() {
         password: hashedPassword
     };
 
-    fetch('http://192.168.0.9:8080/user/login', {
+    fetch('http://145.220.74.141/:8080/User/login', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -70,7 +70,7 @@ async function hashPassword(password, salt) {
 
 async function fetchSaltFromDatabase(username) {
     try {
-        const response = await fetch(`http://192.168.0.9:8080/user/salt?username=${username}`, {
+        const response = await fetch(`http://145.220.74.141:8080/User/getSalt}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
