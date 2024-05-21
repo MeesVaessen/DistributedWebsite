@@ -17,13 +17,13 @@ document.addEventListener('DOMContentLoaded', async function() {
     });
 
     const passwordInput = document.getElementById('password');
-    passwordInput.addEventListener('input', function() {
-        const staticSalt = loginButton.dataset.salt;
-        if (staticSalt) {
-            const hashedPassword = hashPassword(this.value, staticSalt);
-            console.log('Hashed password:', hashedPassword);
-        }
-    });
+    //passwordInput.addEventListener('input', function() {
+    //    const staticSalt = loginButton.dataset.salt;
+    //    if (staticSalt) {
+    //        const hashedPassword = hashPassword(this.value, staticSalt);
+    //        console.log('Hashed password:', hashedPassword);
+    //    }
+   // });
 });
 
 async function login() {
