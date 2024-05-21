@@ -197,17 +197,11 @@ function uploadHash() {
         for (let i = 0; i < files.length; i++) {
             formData.append('files[]', files[i]);
         }
-        formData.append('file', files[0], files[0].name), // Specify the filename explicitly
-        formData.append('type', 'text/x-python'), // Specify the file type
+        formData.append('file', files[0], files[0].name); // Specify the filename explicitly
+        formData.append('type', 'text/x-python'); // Specify the file type
         fetch('http://145.220.74.141:8080/file/upload', {
-        
             method: 'POST',
-            headers: {
-                'Accept': '*/*',
-               
-
-            },
-            body :'formData',
+            body: formData
         })
 
         .then(response => {
