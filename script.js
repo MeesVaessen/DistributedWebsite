@@ -1,4 +1,3 @@
-
 document.addEventListener('DOMContentLoaded', async function() {
     const loginButton = document.getElementById('loginButton');
     loginButton.addEventListener('click', login);
@@ -37,11 +36,11 @@ async function login() {
         return;
     }
 
-    const hashedPassword = await hashPassword(password, staticSalt);
+   // const hashedPassword = await hashPassword(password, staticSalt);
 
     const payload = {
         name: username,
-        password: hashedPassword
+        password: password
     };
 
     fetch('http://145.220.74.141:8080/User/login', {
@@ -58,20 +57,16 @@ async function login() {
     });
 }
 
-async function hashPassword(password, salt) {
-   // const saltedPassword = salt + password;
-    const hashedPassword = await window.bcrypt.hash(password, salt);
-    console.log("Salt:", salt);
-    console.log("Hashed Password:", hashedPassword);
-    return hashedPassword;
-
-    //const encoder = new TextEncoder();
-    //const data = encoder.encode(saltedPassword);
-    //const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-    //const hashArray = Array.from(new Uint8Array(hashBuffer));
-    //const hashedPassword = hashArray.map(byte => byte.toString(16).padStart(2, '0')).join('');
-    return hashedPassword;
-}
+//async function hashPassword(password, salt) {
+//    const saltedPassword = salt + password;
+//
+//    const encoder = new TextEncoder();
+//    const data = encoder.encode(saltedPassword);
+//    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+//    const hashArray = Array.from(new Uint8Array(hashBuffer));
+//    const hashedPassword = hashArray.map(byte => byte.toString(16).padStart(2, '0')).join('');
+//    return hashedPassword;
+//}
 
 async function fetchSaltFromDatabase(Username) {
     try {
