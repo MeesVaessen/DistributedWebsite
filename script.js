@@ -36,11 +36,11 @@ async function login() {
         return;
     }
 
-   // const hashedPassword = await hashPassword(password, staticSalt);
+    const hashedPassword = await hashPassword(password, staticSalt);
 
     const payload = {
         name: username,
-        password: password
+        password: hashedPassword
     };
 
     fetch('http://145.220.74.141:8080/User/login', {
