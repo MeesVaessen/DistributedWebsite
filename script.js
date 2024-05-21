@@ -39,7 +39,7 @@ async function login() {
    // const hashedPassword = await hashPassword(password, staticSalt);
 
     const payload = {
-        username: username,
+        name: username,
         password: password
     };
 
