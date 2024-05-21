@@ -117,7 +117,7 @@ document.getElementById('fileInput').addEventListener('change', function() {
    
         const hashInput = document.getElementById('hashInput').value.trim();
         if (hashInput === '') {
-            alert('Hash is required');
+
             return;
         }
         
@@ -147,8 +147,7 @@ document.getElementById('fileInput').addEventListener('change', function() {
     }
 });
 
-function uploadFiles() {
-    const files = document.getElementById('fileInput').files;
+function uploadHash() {
     const hashInput = document.getElementById('hashInput').value.trim();
      if (hashInput === '') {
         alert('Hash is required');
@@ -159,7 +158,7 @@ function uploadFiles() {
             hash: hashInput
           };
 
-        fetch('https://localhost:7275/File/uploadHash', {
+        fetch('https://145.220.74.141:8080/File/uploadHash', {
             method: 'POST',
             headers: {
                 'Accept': '*/*',
@@ -182,28 +181,25 @@ function uploadFiles() {
             console.error('Error:', error);
         });
     }
-    
-    if (files.length > 0) {
+}
+
+    function uploadFile() {
+        const files = document.getElementById('fileInput').files;
+
         const formData = new FormData();
+         
+    if (files.length > 0) {
         for (let i = 0; i < files.length; i++) {
             formData.append('files[]', files[i]);
         }
+        formData.append('file', files[0], files[0].name), // Specify the filename explicitly
+        formData.append('type', 'text/x-python'), // Specify the file type
+        fetch('http://145.220.74.141:8080/file/upload', {
         
-
-        if (hashInput === '') {
-            alert('Hash is required');
-            return;
-        }
-        
-        formData.append('hash', hashInput);
-        
-        fetch('http://192.168.0.9:8080/file/upload', {
-              formData.append('file', files[0], files[0].name); // Specify the filename explicitly
-        formData.append('type', 'text/x-python'); // Specify the file type
-        fetch('https://localhost:7275/File/upload', {
             method: 'POST',
-            body: formData
+            body :'formData',
         })
+
         .then(response => {
             if (!response.ok) {
                 throw new Error('Error uploading files');
@@ -254,8 +250,6 @@ function uploadFiles() {
     } else {
         alert('Please select file to upload');
     }
-}
-
 
 
 const socket = new WebSocket('ws://145.220.74.141:8181/File/upload');

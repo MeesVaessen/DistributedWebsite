@@ -35,9 +35,11 @@
                 <p>Click or drop Python files here to upload</p>
                 <div id="errorBox" class="error-box"></div>
             </label>
+            <button onclick="uploadFile()">Upload files</button>
             <div id="progressBar"></div>
             <input type="file" id="fileInput" accept=".py">
             <input type="text" id="hashInput" placeholder="Enter hash">
+            <button onclick="uploadHash()">Upload hash</button>
             <span id="answer"> </span> 
             <button onclick="uploadFiles()" class="uploadButton">Upload</button>
         </div>
