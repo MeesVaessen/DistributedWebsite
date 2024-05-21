@@ -2,28 +2,41 @@ document.addEventListener('DOMContentLoaded', async function() {
     const loginButton = document.getElementById('loginButton');
     loginButton.addEventListener('click', login);
 
-    let staticSalt = localStorage.getItem('staticSalt'); // Retrieve salt from local storage
-    if (!staticSalt) {
-        // If salt is not present in local storage, generate a new one
-        staticSalt = await generateSalt();
-        localStorage.setItem('staticSalt', staticSalt); // Store salt in local storage
-    }
-    console.log('Generated salt:', staticSalt); // Log the generated salt
-    loginButton.dataset.salt = staticSalt; // Store the salt as a data attribute
+    const usernameInput = document.getElementById('username');
+    usernameInput.addEventListener('blur', async function() {
+        const username = this.value;
+        if (username) {
+            const staticSalt = await fetchSaltFromDatabase(username);
+            if (staticSalt) {
+                console.log('Fetched salt:', staticSalt);
+                loginButton.dataset.salt = staticSalt;
+            } else {
+                console.error('No salt found for this username');
+            }
+        }
+    });
 
     const passwordInput = document.getElementById('password');
     passwordInput.addEventListener('input', function() {
-        const hashedPassword = hashPassword(this.value, staticSalt);
-        console.log('Hashed password:', hashedPassword); // Log the hashed password
+        const staticSalt = loginButton.dataset.salt;
+        if (staticSalt) {
+            const hashedPassword = hashPassword(this.value, staticSalt);
+            console.log('Hashed password:', hashedPassword);
+        }
     });
 });
 
 async function login() {
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
-    const staticSalt = this.dataset.salt; // Retrieve the stored salt
+    const staticSalt = this.dataset.salt;
 
-    const hashedPassword = await hashPassword(password, staticSalt); 
+    if (!staticSalt) {
+        console.error('Salt is not available');
+        return;
+    }
+
+    const hashedPassword = await hashPassword(password, staticSalt);
 
     const payload = {
         username: username,
@@ -38,7 +51,6 @@ async function login() {
         body: JSON.stringify(payload)
     })
     .then(async response => {
-        // Handle response
     })
     .catch(error => {
         console.error('Error:', error);
@@ -56,16 +68,26 @@ async function hashPassword(password, salt) {
     return hashedPassword;
 }
 
-async function generateSalt() {
-    const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789ge';
-    let salt = '';
-    for (let i = 0; i < 16; i++) {
-        salt += charset.charAt(Math.floor(Math.random() * charset.length));
+async function fetchSaltFromDatabase(username) {
+    try {
+        const response = await fetch(`http://192.168.0.9:8080/user/salt?username=${username}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        if (response.ok) {
+            const data = await response.json();
+            return data.salt;
+        } else {
+            console.error('Failed to fetch salt');
+            return null;
+        }
+    } catch (error) {
+        console.error('Error fetching salt:', error);
+        return null;
     }
-    return salt;
 }
-
-
 
 document.getElementById('dropbox').addEventListener('click', function(event) {
     event.preventDefault();
