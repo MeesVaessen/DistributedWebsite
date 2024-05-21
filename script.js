@@ -1,4 +1,4 @@
-import bcrypt from 'bcryptjs';
+import bcrypt from '../node_modules/bcryptjs/dist/bcrypt.min.js';
 
 
 document.addEventListener('DOMContentLoaded', async function() {
