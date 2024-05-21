@@ -43,7 +43,7 @@ async function login() {
         password: password
     };
 
-    fetch('http://145.220.74.141/:8080/User/login', {
+    fetch('http://145.220.74.141:8080/User/login', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
