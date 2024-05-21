@@ -55,6 +55,7 @@ async function login() {
     })
     .catch(error => {
         console.error('Error:', error);
+        alert("Incorrect login details")
     });
 }
 
@@ -217,7 +218,7 @@ function uploadHash() {
         })
         .catch(error => {
             console.error('Error:', error);
-            alert('Error uploading files');
+            //alert('Error uploading files');
         });
     } else {
         if (hashInput === '') {
