@@ -51,6 +51,7 @@ async function login() {
         body: JSON.stringify(payload)
     })
     .then(async response => {
+        window.location.href = "/Dashboard"
     })
     .catch(error => {
         console.error('Error:', error);
