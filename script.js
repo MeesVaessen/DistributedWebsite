@@ -71,7 +71,7 @@ async function hashPassword(password, salt) {
 async function fetchSaltFromDatabase(username) {
     try {
         const response = await fetch('http://145.220.74.141:8080/User/getSalt', {
-            method: 'GET',
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             }
