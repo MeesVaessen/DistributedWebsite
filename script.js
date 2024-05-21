@@ -62,7 +62,7 @@ async function login() {
 
 async function hashPassword(password, salt) {
    // const saltedPassword = salt + password;
-    const hashedPassword = await hash(password, salt);
+    const hashedPassword = await bcrypt.hash(password, salt);
     console.log("Salt:", salt);
     console.log("Hashed Password:", hashedPassword);
     return hashedPassword;
