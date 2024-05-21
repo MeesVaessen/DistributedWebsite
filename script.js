@@ -165,7 +165,7 @@ function uploadHash() {
             hash: hashInput
           };
 
-        fetch('http://145.220.74.141:8080/File/uploadHash', {
+        fetch('http://145.220.74.141:8080/File/sendMessage', {
             method: 'POST',
             headers: {
                 'Accept': '*/*',
