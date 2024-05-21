@@ -150,6 +150,38 @@ document.getElementById('fileInput').addEventListener('change', function() {
 function uploadFiles() {
     const files = document.getElementById('fileInput').files;
     const hashInput = document.getElementById('hashInput').value.trim();
+     if (hashInput === '') {
+        alert('Hash is required');
+        return;
+    }
+    else{
+        const requestData = {
+            hash: hashInput
+          };
+
+        fetch('https://localhost:7275/File/uploadHash', {
+            method: 'POST',
+            headers: {
+                'Accept': '*/*',
+                'Content-Type': 'application/json' // Specify JSON content type
+
+            },
+            body: JSON.stringify(requestData) // Convert JavaScript object to JSON string
+        })
+        .then(response => {
+            console.log(response);
+            if (!response.ok) {
+                throw new Error('Error uploading files');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Files uploaded successfully:', data);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
     
     if (files.length > 0) {
         const formData = new FormData();
@@ -166,6 +198,9 @@ function uploadFiles() {
         formData.append('hash', hashInput);
         
         fetch('http://192.168.0.9:8080/file/upload', {
+              formData.append('file', files[0], files[0].name); // Specify the filename explicitly
+        formData.append('type', 'text/x-python'); // Specify the file type
+        fetch('https://localhost:7275/File/upload', {
             method: 'POST',
             body: formData
         })
