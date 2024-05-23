@@ -43,7 +43,7 @@ async function login() {
         password: password
     };
 
-    fetch('http://145.220.74.141:8080/User/login', {
+    fetch('https://api.decoderfontys.nl/User/login', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -75,7 +75,7 @@ async function fetchSaltFromDatabase(Username) {
         const payload = {
             name: Username,
         };
-        const response = await fetch('http://145.220.74.141:8080/User/getSalt', {
+        const response = await fetch('https://api.decoderfontys.nl/User/getSalt', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -258,7 +258,7 @@ function uploadHash() {
     }
 
 
-const socket = new WebSocket('ws://145.220.74.141:8181/File/upload');
+const socket = new WebSocket('ws://api.decoderfontys.nl/File/upload');
 
 socket.addEventListener('message', function(event) {
     try {
