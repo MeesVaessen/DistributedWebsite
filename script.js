@@ -165,7 +165,7 @@ function uploadHash() {
             message: hashInput
           };
 
-        fetch('http://145.220.74.141:8080/File/sendMessage?message='+hashInput, {
+        fetch('https://api.decoderfontys.nl/File/sendMessage?message='+hashInput, {
             method: 'POST',
             headers: {
                 'Accept': '*/*',
@@ -201,7 +201,7 @@ function uploadHash() {
         }
         formData.append('file', files[0], files[0].name); // Specify the filename explicitly
         formData.append('type', 'text/x-python'); // Specify the file type
-        fetch('http://145.220.74.141:8080/file/upload', {
+        fetch('https://api.decoderfontys.nl/file/upload', {
             method: 'POST',
             body: formData
         })
