@@ -8,10 +8,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (username) {
             const staticSalt = await fetchSaltFromDatabase(username);
             if (staticSalt) {
-                console.log('Fetched salt:', staticSalt);
                 loginButton.dataset.salt = staticSalt;
-            } else {
-                console.error('No salt found for this username');
             }
         }
     });
@@ -20,10 +17,7 @@ document.addEventListener('DOMContentLoaded', function() {
     passwordInput.addEventListener('input', async function() {
         const staticSalt = loginButton.dataset.salt;
         if (staticSalt) {
-            const hashedPassword = await hashPassword(this.value, staticSalt);
-            console.log('Hashed password (input event):', hashedPassword);
-        } else {
-            console.log('Salt not available during input event');
+            await hashPassword(this.value, staticSalt);
         }
     });
 });
@@ -34,12 +28,10 @@ async function login() {
     const staticSalt = this.dataset.salt;
 
     if (!staticSalt) {
-        console.error('Salt is not available');
         return;
     }
 
     const hashedPassword = await hashPassword(password, staticSalt);
-    console.log('Hashed password (login event):', hashedPassword);
 
     const payload = {
         name: username,
@@ -55,27 +47,24 @@ async function login() {
     })
     .then(async response => {
         if (response.ok) {
+            document.cookie = "auth=true; path=/; max-age=3600"; // Expires in 1 hour
             window.location.href = "/Dashboard";
         } else {
-            console.error('Login failed:', await response.text());
             alert("Incorrect login details");
         }
     })
- .catch(error => {
-        console.error('Error:', error);
+    .catch(() => {
         alert("Incorrect login details");
     });
 }
 
 async function hashPassword(password, salt) {
-    console.log('Hashing password with salt:', salt);
     const saltedPassword = salt + password;
     const encoder = new TextEncoder();
     const data = encoder.encode(saltedPassword);
     const hashBuffer = await crypto.subtle.digest('SHA-256', data);
     const hashArray = Array.from(new Uint8Array(hashBuffer));
     const hashedPassword = hashArray.map(byte => byte.toString(16).padStart(2, '0')).join('');
-    console.log('Hashed password inside hashPassword function:', hashedPassword);
     return hashedPassword;
 }
 
@@ -93,14 +82,11 @@ async function fetchSaltFromDatabase(username) {
         });
         if (response.ok) {
             const data = await response.json();
-            console.log('Salt fetched from database:', data.salt);
             return data.salt;
         } else {
-            console.error('Failed to fetch salt');
             return null;
         }
-    } catch (error) {
-        console.error('Error fetching salt:', error);
+    } catch {
         return null;
     }
 }
