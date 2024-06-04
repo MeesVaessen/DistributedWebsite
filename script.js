@@ -40,7 +40,7 @@ async function login() {
 
     const payload = {
         name: username,
-        password: password
+        password: hashedPassword
     };
 
     fetch('https://api.decoderfontys.nl/User/login', {
