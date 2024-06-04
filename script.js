@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', async function() {
+document.addEventListener('DOMContentLoaded', function() {
     const loginButton = document.getElementById('loginButton');
     loginButton.addEventListener('click', login);
 
@@ -17,12 +17,14 @@ document.addEventListener('DOMContentLoaded', async function() {
     });
 
     const passwordInput = document.getElementById('password');
-    passwordInput.addEventListener('input', function() {
-      const staticSalt = loginButton.dataset.salt;
-     if (staticSalt) {
-          const hashedPassword = hashPassword(this.value, staticSalt);
-           console.log('Hashed password:', hashedPassword);
-      }
+    passwordInput.addEventListener('input', async function() {
+        const staticSalt = loginButton.dataset.salt;
+        if (staticSalt) {
+            const hashedPassword = await hashPassword(this.value, staticSalt);
+            console.log('Hashed password (input event):', hashedPassword);
+        } else {
+            console.log('Salt not available during input event');
+        }
     });
 });
 
@@ -36,7 +38,8 @@ async function login() {
         return;
     }
 
-   const hashedPassword = await hashPassword(password, staticSalt);
+    const hashedPassword = await hashPassword(password, staticSalt);
+    console.log('Hashed password (login event):', hashedPassword);
 
     const payload = {
         name: username,
@@ -51,28 +54,35 @@ async function login() {
         body: JSON.stringify(payload)
     })
     .then(async response => {
-        window.location.href = "/Dashboard"
+        if (response.ok) {
+            window.location.href = "/Dashboard";
+        } else {
+            console.error('Login failed:', await response.text());
+            alert("Incorrect login details");
+        }
     })
-    .catch(error => {
+ .catch(error => {
         console.error('Error:', error);
-        alert("Incorrect login details")
+        alert("Incorrect login details");
     });
 }
 
 async function hashPassword(password, salt) {
+    console.log('Hashing password with salt:', salt);
     const saltedPassword = salt + password;
-   const encoder = new TextEncoder();
+    const encoder = new TextEncoder();
     const data = encoder.encode(saltedPassword);
     const hashBuffer = await crypto.subtle.digest('SHA-256', data);
     const hashArray = Array.from(new Uint8Array(hashBuffer));
-   const hashedPassword = hashArray.map(byte => byte.toString(16).padStart(2, '0')).join('');
-   return hashedPassword;
+    const hashedPassword = hashArray.map(byte => byte.toString(16).padStart(2, '0')).join('');
+    console.log('Hashed password inside hashPassword function:', hashedPassword);
+    return hashedPassword;
 }
 
-async function fetchSaltFromDatabase(Username) {
+async function fetchSaltFromDatabase(username) {
     try {
         const payload = {
-            name: Username,
+            name: username,
         };
         const response = await fetch('https://api.decoderfontys.nl/User/getSalt', {
             method: 'POST',
@@ -80,10 +90,10 @@ async function fetchSaltFromDatabase(Username) {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(payload)
-
         });
         if (response.ok) {
             const data = await response.json();
+            console.log('Salt fetched from database:', data.salt);
             return data.salt;
         } else {
             console.error('Failed to fetch salt');
