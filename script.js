@@ -17,13 +17,13 @@ document.addEventListener('DOMContentLoaded', async function() {
     });
 
     const passwordInput = document.getElementById('password');
-    //passwordInput.addEventListener('input', function() {
-    //    const staticSalt = loginButton.dataset.salt;
-    //    if (staticSalt) {
-    //        const hashedPassword = hashPassword(this.value, staticSalt);
-    //        console.log('Hashed password:', hashedPassword);
-    //    }
-   // });
+    passwordInput.addEventListener('input', function() {
+      const staticSalt = loginButton.dataset.salt;
+     if (staticSalt) {
+          const hashedPassword = hashPassword(this.value, staticSalt);
+           console.log('Hashed password:', hashedPassword);
+      }
+    });
 });
 
 async function login() {
@@ -36,7 +36,7 @@ async function login() {
         return;
     }
 
-   // const hashedPassword = await hashPassword(password, staticSalt);
+   const hashedPassword = await hashPassword(password, staticSalt);
 
     const payload = {
         name: username,
@@ -59,16 +59,15 @@ async function login() {
     });
 }
 
-//async function hashPassword(password, salt) {
-//    const saltedPassword = salt + password;
-//
-//    const encoder = new TextEncoder();
-//    const data = encoder.encode(saltedPassword);
-//    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-//    const hashArray = Array.from(new Uint8Array(hashBuffer));
-//    const hashedPassword = hashArray.map(byte => byte.toString(16).padStart(2, '0')).join('');
-//    return hashedPassword;
-//}
+async function hashPassword(password, salt) {
+    const saltedPassword = salt + password;
+   const encoder = new TextEncoder();
+    const data = encoder.encode(saltedPassword);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+   const hashedPassword = hashArray.map(byte => byte.toString(16).padStart(2, '0')).join('');
+   return hashedPassword;
+}
 
 async function fetchSaltFromDatabase(Username) {
     try {
@@ -172,7 +171,7 @@ function uploadHash() {
                 'Content-Type': 'application/json' // Specify JSON content type
 
             },
-            //body: JSON.stringify(requestData) // Convert JavaScript object to JSON string
+            body: JSON.stringify(requestData) // Convert JavaScript object to JSON string
         })
         .then(response => {
             console.log(response);
