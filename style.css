@@ -12,6 +12,7 @@ html, body {
     margin: 0;
     padding: 0;
 }
+
 body{
     background-color: #1c1e27;
     background-image: linear-gradient(43deg, #1c1e27 50%, #20222a 46%, #22242e 100% );
