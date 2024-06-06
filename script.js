@@ -57,7 +57,6 @@ async function login() {
         body: JSON.stringify(payload)
     })
     .then(async response => {
-        data = response.json();
         console.log(response);
         console.log(data);
         setCookie('jwt', data.token, 7); // Set the cookie with a 7-day expiration
