@@ -85,7 +85,7 @@ function getCookie(name) {
 
 // Function to check for JWT cookie and redirect if not found
 function checkJwtCookieAndRedirect() {
-    const jwt = getCookie('jwt');
+    const jwt = getCookie('JWT');
     if(window.location.href!=='https://decoderfontys.nl/'){
         if (!jwt) {
             window.location.href = 'https://decoderfontys.nl/';
