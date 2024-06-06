@@ -62,8 +62,9 @@ async function login() {
         return response.json();
     }).then(data => {
         console.log(data); // Log the response body
+        setCookie("JWT",data.token,0.5)
         // Redirect to dashboard
-      //  window.location.href = "/Dashboard";
+        window.location.href = "/Dashboard";
     })
     .catch(error => {
         console.error('There was a problem with the fetch operation:', error);
