@@ -116,164 +116,153 @@ try {
 }
 }
 document.getElementById('dropbox').addEventListener('click', function(event) {
-event.preventDefault();
-document.getElementById('fileInput').click();
+    event.preventDefault();
+    document.getElementById('fileInput').click();
 });
+ 
 document.getElementById('fileInput').addEventListener('change', function() {
-const fileInput = this;
-const files = fileInput.files;
-const allowedExtensions = ['py']; 
-if (files.length > 0) {
-    for (let i = 0; i < files.length; i++) {
-        const file = files[i];
-        const fileNameParts = file.name.split('.');
-        const fileExtension = fileNameParts[fileNameParts.length - 1].toLowerCase();
-        
-        if (!allowedExtensions.includes(fileExtension)) {
-            alert('Only Python files are allowed');
-            fileInput.value = ''; 
+    const fileInput = this;
+    const files = fileInput.files;
+    const allowedExtensions = ['py'];
+ 
+    if (files.length > 0) {
+        for (let i = 0; i < files.length; i++) {
+            const file = files[i];
+            const fileNameParts = file.name.split('.');
+            const fileExtension = fileNameParts[fileNameParts.length - 1].toLowerCase();
+ 
+            if (!allowedExtensions.includes(fileExtension)) {
+                alert('Only Python files are allowed');
+                fileInput.value = '';
+                return;
+            }
+        }
+ 
+        document.getElementById('dropbox').classList.add('selected');
+       
+        const hashInput = document.getElementById('hashInput').value.trim();
+        if (hashInput === '') {
+            return;
+        }
+    } else {
+        document.getElementById('dropbox').classList.remove('selected');
+        const hashInput = document.getElementById('hashInput').value.trim();
+        if (hashInput === '') {
             return;
         }
     }
-    
-    document.getElementById('dropbox').classList.add('selected');
-    
-
-    const hashInput = document.getElementById('hashInput').value.trim();
-    if (hashInput === '') {
-        return;
-    }
-    
-    const progressBar = document.getElementById('progressBar');
-    progressBar.style.width = '0%';
-    progressBar.style.display = 'block';
-    const interval = setInterval(function() {
-        progressBar.style.width = parseFloat(progressBar.style.width) + 10 + '%';
-        if (progressBar.style.width === '100%') {
-            clearInterval(interval);
-            progressBar.style.display = 'none';
-       
-            document.getElementById('dropbox').classList.add('success');
-            document.getElementById('dropbox').innerText = files[0].name;
-        }
-    }, 200);
-} else {
-    document.getElementById('dropbox').classList.remove('selected');
-    
-    const hashInput = document.getElementById('hashInput').value.trim();
-    if (hashInput === '') {
-        alert('Hash is required');
-        return;
-    }
-    
-}
 });
+ 
 function uploadHash() {
-const hashInput = document.getElementById('hashInput').value.trim();
- if (hashInput === '') {
-    alert('Hash is required');
-    return;
+    const hashInput = document.getElementById('hashInput').value.trim();
+    if (hashInput === '') {
+        return;
+    } else {
+        const requestData = { message: hashInput };
+ 
+        fetch('https://api.decoderfontys.nl/File/sendMessage?message=' + hashInput, {
+            method: 'POST',
+            headers: {
+                'Accept': '*/*',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(requestData)
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Error uploading hash');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Hash uploaded successfully:', data);
+            openWebSocket(); // Open WebSocket after hash upload to receive progress updates
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
 }
-else{
-    const requestData = {
-        message: hashInput
-      };
-    fetch('https://api.decoderfontys.nl/File/sendMessage?message='+hashInput, {
-        method: 'POST',
-        headers: {
-            'Accept': '*/*',
-            'Content-Type': 'application/json' // Specify JSON content type
-        },
-        body: JSON.stringify(requestData) // Convert JavaScript object to JSON string
-    })
-    .then(response => {
-        console.log(response);
-        if (!response.ok) {
-            throw new Error('Error uploading files');
-        }
-        return response.json();
-    })
-    .then(data => {
-        console.log('Files uploaded successfully:', data);
-    })
-    .catch(error => {
-        console.error('Error:', error);
-    });
-}
-}
+ 
 function uploadFile() {
     const files = document.getElementById('fileInput').files;
-    const formData = new FormData();
-     
-if (files.length > 0) {
-    for (let i = 0; i < files.length; i++) {
-        formData.append('files[]', files[i]);
-    }
-    formData.append('file', files[0], files[0].name); // Specify the filename explicitly
-    formData.append('type', 'text/x-python'); // Specify the file type
-    fetch('https://api.decoderfontys.nl/file/upload', {
-        method: 'POST',
-        body: formData
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Error uploading files');
-        }
-        return response.json();
-    })
-    .then(data => {
-        console.log('Files uploaded successfully:', data);
-        alert('Files uploaded successfully!');
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        //alert('Error uploading files');
-    });
-} else {
-    if (hashInput === '') {
-        alert('Please select files to upload and enter hash');
+ 
+    if (files.length > 0) {
+        const formData = new FormData();
+        formData.append('file', files[0], files[0].name);
+        formData.append('type', 'text/x-python');
+ 
+        fetch('https://api.decoderfontys.nl/file/upload', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Error uploading files');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Files uploaded successfully:', data);
+            alert('Files uploaded successfully!');
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
     } else {
-        alert('Files are not selected, proceeding with hash only');
+        alert('Please select files to upload');
     }
 }
-}
-if (files.length > 0) {
-    const formData = new FormData();
-    formData.append('file', files[0], files[0].name); // Specify the filename explicitly
-    formData.append('type', 'text/x-python'); // Specify the file type
-    fetch('https://localhost:7275/File/upload', {
-        method: 'POST',
-        body: formData
-    })
-    .then(response => {
-        console.log(response);
-        if (!response.ok) {
-            throw new Error('Error uploading files');
-        }
-        return response.json();
-    })
-    .then(data => {
-        console.log('File uploaded successfully:', data);
-    })
-    .catch(error => {
-        console.error('Error:', error);
+ 
+function openWebSocket() {
+    const socket = new WebSocket('ws://api.decoderfontys.nl/File/upload');
+ 
+    socket.addEventListener('open', function(event) {
+        const progressContainer = document.getElementById('progressContainer');
+        progressContainer.style.display = 'block';
     });
-} else {
-    alert('Please select file to upload');
+ 
+    socket.addEventListener('message', function(event) {
+        try {
+            const message = JSON.parse(event.data);
+            const triedPasswords = message.Tried_Passwords || 0;
+            const elapsedTime = message.Elapsed_Time || 0;
+ 
+            const maxAttempts = 916132832;
+            const progressPercent = (triedPasswords / maxAttempts) * 100;
+ 
+            const progressBar = document.getElementById('progressBar');
+            const triedPasswordsText = document.getElementById('triedPasswords');
+            const elapsedTimeText = document.getElementById('elapsedTime');
+           
+            progressBar.style.width = progressPercent + '%';
+            triedPasswordsText.innerText = `Tried Passwords: ${triedPasswords}`;
+            elapsedTimeText.innerText = `Elapsed Time: ${elapsedTime}s`;
+ 
+            if (message.Type === 'Password_Found') {
+                const foundPassword = document.getElementById('foundPassword');
+                foundPassword.value = message.Content;
+                foundPassword.style.display = 'block';
+            }
+ 
+            if (progressPercent >= 100) {
+                const progressContainer = document.getElementById('progressContainer');
+                progressContainer.style.display = 'none';
+            }
+        } catch (error) {
+            console.error('Error parsing WebSocket message:', error);
+        }
+    });
+ 
+    socket.addEventListener('error', function(event) {
+        console.error('WebSocket error:', event);
+        const progressContainer = document.getElementById('progressContainer');
+        progressContainer.style.display = 'none';
+    });
+ 
+    socket.addEventListener('close', function(event) {
+        console.log('WebSocket connection closed');
+        const progressContainer = document.getElementById('progressContainer');
+        progressContainer.style.display = 'none';
+    });
 }
-const socket = new WebSocket('ws://api.decoderfontys.nl/File/upload');
-socket.addEventListener('message', function(event) {
-try {
-    const message = JSON.parse(event.data);
-    console.log('Type:', message.Type);
-    console.log('Content:', message.Content);
-} catch (error) {
-    console.error('Error parsing WebSocket message:', error);
-}
-});
-socket.addEventListener('error', function(event) {
-console.error('WebSocket error:', event);
-});
-socket.addEventListener('close', function(event) {
-console.log('WebSocket connection closed');
-});
