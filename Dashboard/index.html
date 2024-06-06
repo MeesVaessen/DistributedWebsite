@@ -15,7 +15,7 @@
         <script src="https://kit.fontawesome.com/a609c2842d.js" crossorigin="anonymous"></script>
         <script src="../node_modules/bcryptjs/dist/bcrypt.min.js"></script>
         <script async src="/script.js"></script>
-
+ 
     </head>
     <body>
         <header>
@@ -30,7 +30,7 @@
                 </nav>
             </div>
         </header>
-        
+       
     <div class="dashboard" id="dashboard">
             <label for="fileInput" class="dropbox" id="dropbox">
                 <p>Click or drop Python files here to upload</p>
@@ -41,9 +41,19 @@
             <input type="file" id="fileInput" accept=".py">
             <input type="text" id="hashInput" placeholder="Enter hash">
             <button onclick="uploadHash()" class="uploadButton">Upload hash</button>
+            <input type="text" id="foundPassword" placeholder="Found Password" readonly style="display: none;">
         </div>
-    
+       
+<div id="progressContainer">
+    <div id="progressText">Progress</div>
+    <div id="progressBar"></div>
+    <div id="triedPasswords">Tried Passwords: 0</div>
+    <div id="elapsedTime">Elapsed Time: 0s</div>
+</div>
+ 
+</div>
         <script src="scripts.js"></script>
     </body>
-    
+   
     </html>
+ 
