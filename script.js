@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const usernameInput = document.getElementById('username');
     usernameInput.addEventListener('blur', async function() {
         const username = this.value;
-        if (username) {
+        if (username) { 
             const staticSalt = await fetchSaltFromDatabase(username);
             if (staticSalt) {
                 loginButton.dataset.salt = staticSalt;
