@@ -57,10 +57,10 @@ async function login() {
         body: JSON.stringify(payload)
     })
     .then(async response => {
+        console.log(response)
         if (response.ok) {
             data = response.json();
             setCookie('jwt', data.token, 7); // Set the cookie with a 7-day expiration
-            console.log(test)
             window.location.href = "/Dashboard";
         } else {
             alert("Incorrect login details");
