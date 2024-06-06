@@ -72,6 +72,29 @@ async function login() {
     });
 }
 
+function getCookie(name) {
+    const nameEQ = name + "=";
+    const ca = document.cookie.split(';');
+    for(let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+    }
+    return null;
+}
+
+// Function to check for JWT cookie and redirect if not found
+function checkJwtCookieAndRedirect() {
+    const jwt = getCookie('jwt');
+    if (!jwt&&window.location.href!='https://www.decoderfontys.com/') {
+        window.location.href = 'https://www.decoderfontys.com/';
+    }
+}
+
+
+
+
+
 async function hashPassword(password, salt) {
     const saltedPassword = salt + password;
     const encoder = new TextEncoder();
