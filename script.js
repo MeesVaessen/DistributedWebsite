@@ -90,6 +90,7 @@ function checkJwtCookieAndRedirect() {
         window.location.href = 'https://www.decoderfontys.com/';
     }
 }
+window.onload = checkJwtCookieAndRedirect;
 
 
 
