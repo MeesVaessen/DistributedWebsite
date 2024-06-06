@@ -153,7 +153,6 @@ bottom: 0;
     max-width: 1150px;
     margin: 20px auto;
 }
- 
 .dropbox {
     border: 2px dashed #ccc;
     padding: 20px;
@@ -170,35 +169,26 @@ bottom: 0;
     position: relative;
     transition: border-color 0.3s, background-color 0.3s;
 }
- 
+
 #fileInput {
     display: none;
 }
- 
-.dropbox i {
-    position: absolute;
-    top: 70%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 60px;
-    color: #aaa;
-    transition: color 0.3s;
-}
- 
+
 .dropbox p {
     color: #ddd;
     margin: 0 auto;
     font-size: 1.2rem;
 }
- 
-.dropbox.selected {
-    border-color: green;
-    background-color: #20222a ;
+
+#dropbox.active {
+    border-color: #649568;
 }
-.dropbox:hover{
-   background-color: #20222a ;
-   transition: 0.2s ease;
+
+.dropbox:hover {
+    background-color: #20222a;
+    transition: 0.2s ease;
 }
+
 #fileInput {
     display: none;
 }
