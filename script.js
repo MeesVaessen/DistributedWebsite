@@ -54,7 +54,7 @@ async function login() {
     }).then(data => {
         console.log(data); // Log the response body
         setCookie("JWT",data.token,0.5)
-        // Redirect to dashboard
+   
         window.location.href = "/Dashboard";
     })
     .catch(error => {
@@ -124,35 +124,27 @@ document.getElementById('fileInput').addEventListener('change', function() {
     const fileInput = this;
     const files = fileInput.files;
     const allowedExtensions = ['py'];
- 
+
     if (files.length > 0) {
         for (let i = 0; i < files.length; i++) {
             const file = files[i];
             const fileNameParts = file.name.split('.');
             const fileExtension = fileNameParts[fileNameParts.length - 1].toLowerCase();
- 
+
             if (!allowedExtensions.includes(fileExtension)) {
                 alert('Only Python files are allowed');
                 fileInput.value = '';
                 return;
             }
         }
- 
-        document.getElementById('dropbox').classList.add('selected');
-       
-        const hashInput = document.getElementById('hashInput').value.trim();
-        if (hashInput === '') {
-            return;
-        }
+
+        document.getElementById('dropbox').classList.add('active');
+        document.getElementById('dropbox').innerHTML = `<p>${files[0].name}</p>`;
     } else {
         document.getElementById('dropbox').classList.remove('selected');
-        const hashInput = document.getElementById('hashInput').value.trim();
-        if (hashInput === '') {
-            return;
-        }
+        document.getElementById('dropbox').innerHTML = `<p>Click or drop Python files here to upload</p>`;
     }
 });
- 
 function uploadHash() {
     const hashInput = document.getElementById('hashInput').value.trim();
     if (hashInput === '') {
