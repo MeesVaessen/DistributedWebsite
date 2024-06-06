@@ -55,14 +55,18 @@ async function login() {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(payload)
+    }).then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
     }).then(data => {
-        console.log(data);
-        
-        setCookie('jwt', data.token, 7); // Set the cookie with a 7-day expiration
-       // window.location.href = "/Dashboard";
-
+        console.log(data); // Log the response body
+        // Redirect to dashboard
+      //  window.location.href = "/Dashboard";
     })
-    .catch(() => {
+    .catch(error => {
+        console.error('There was a problem with the fetch operation:', error);
         alert("Incorrect login details");
     });
 }
