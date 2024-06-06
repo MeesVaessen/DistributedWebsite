@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (staticSalt) {
                 loginButton.dataset.salt = staticSalt;
             }
-        }
+        } 
     });
 
     const passwordInput = document.getElementById('password');
