@@ -22,6 +22,17 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
+
+function setCookie(name, value, days) {
+    let expires = "";
+    if (days) {
+        const date = new Date();
+        date.setTime(date.getTime() + (days*24*60*60*1000));
+        expires = "; expires=" + date.toUTCString();
+    }
+    document.cookie = name + "=" + (value || "")  + expires + "; path=/";
+}
+
 async function login() {
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
@@ -47,7 +58,8 @@ async function login() {
     })
     .then(async response => {
         if (response.ok) {
-            document.cookie = "auth=true; path=/; max-age=3600"; // Expires in 1 hour
+            data = response.json();
+            setCookie('jwt', data.token, 7); // Set the cookie with a 7-day expiration
             window.location.href = "/Dashboard";
         } else {
             alert("Incorrect login details");
