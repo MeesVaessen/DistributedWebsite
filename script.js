@@ -55,9 +55,8 @@ async function login() {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(payload)
-    })
-    .then(async response => {
-        console.log(response.json);
+    }).then(async response => {
+        console.log(response);
         setCookie('jwt', data.token, 7); // Set the cookie with a 7-day expiration
         window.location.href = "/Dashboard";
 
