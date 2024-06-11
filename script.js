@@ -197,13 +197,12 @@ function uploadFile() {
         formData.append('file', files[0], files[0].name);
         formData.append('type', 'text/x-python');
         console.log(`Authorization: Bearer ${token}`);
-        fetch('https://api.decoderfontys.nl/file/upload', {
+        fetch('https://api.decoderfontys.nl/file/upload?wsToken='+ webSocketToken, {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${token}`
             },
-            body: formData,
-            webSocketToken
+            body: formData
         })
         .then(response => {
             if (!response.ok) {
@@ -263,6 +262,7 @@ function openWebSocket() {
 
             if (message.Type === 'Connection_Token') {
                 _webSocketToken = message.Content;
+                setCookie(wsToken,_webSocketToken,3)
                 console.log("Connection Token recieved: ", _webSocketToken);
             }
 
