@@ -154,10 +154,9 @@ function uploadHash() {
         console.log(`Authorization: Bearer ${token}`);
     } else {
         const token = getCookie("JWT");
-        webSocketToken = _webSocketToken;
         const requestData = { 
             message: hashInput,
-            wsToken: webSocketToken
+            wsToken: _webSocketToken
         };
 
         fetch('Https://api.decoderfontys.nl/File/sendMessage?message=' , {
@@ -185,7 +184,9 @@ function uploadHash() {
         });
     }
 }
-const _webSocketToken;
+
+var _webSocketToken = "";
+
 function uploadFile() {
     const files = document.getElementById('fileInput').files;
     const token = getCookie("JWT");
@@ -258,6 +259,7 @@ function openWebSocket() {
 
             if (message.Type === 'Connection_Token') {
                 _webSocketToken = message.Content;
+                console.log("Connection Token recieved: ", _webSocketToken);
             }
 
             if (progressPercent >= 100) {
