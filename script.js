@@ -227,7 +227,7 @@ function uploadFile() {
 }
 
 function openWebSocket() {
-    const socket = new WebSocket('ws://api.decoderfontys.nl/File/upload');
+    const socket = new WebSocket('ws://websocket.decoderfontys.nl');
 
     socket.addEventListener('open', function(event) {
         const progressContainer = document.getElementById('progressContainer');
