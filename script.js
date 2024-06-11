@@ -52,9 +52,7 @@ async function login() {
         }
         return response.json();
     }).then(data => {
-        console.log(data); // Log the response body
-        setCookie("JWT",data.token,0.5)
-   
+        setCookie("JWT", data.token, 0.5);
         window.location.href = "/Dashboard";
     })
     .catch(error => {
@@ -62,10 +60,21 @@ async function login() {
         alert("Incorrect login details");
     });
 }
+
+function setCookie(name, value, hours) {
+    let expires = "";
+    if (hours) {
+        const date = new Date();
+        date.setTime(date.getTime() + (hours * 60 * 60 * 1000));
+        expires = "; expires=" + date.toUTCString();
+    }
+    document.cookie = name + "=" + (value || "") + expires + "; path=/";
+}
+
 function getCookie(name) {
     const nameEQ = name + "=";
     const ca = document.cookie.split(';');
-    for(let i = 0; i < ca.length; i++) {
+    for (let i = 0; i < ca.length; i++) {
         let c = ca[i];
         while (c.charAt(0) == ' ') c = c.substring(1, c.length);
         if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
@@ -73,53 +82,54 @@ function getCookie(name) {
     return null;
 }
 
-// Function to check for JWT cookie and redirect if not found
 function checkJwtCookieAndRedirect() {
-const jwt = getCookie('JWT');
-if(window.location.href!=='https://decoderfontys.nl/'){
-    if (!jwt) {
-        window.location.href = 'https://decoderfontys.nl/';
-}
-}
-
+    const jwt = getCookie('JWT');
+    if (window.location.href !== 'https://decoderfontys.nl/') {
+        if (!jwt) {
+            window.location.href = 'https://decoderfontys.nl/';
+        }
+    }
 }
 window.onload = checkJwtCookieAndRedirect;
+
 async function hashPassword(password, salt) {
-const saltedPassword = salt + password;
-const encoder = new TextEncoder();
-const data = encoder.encode(saltedPassword);
-const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-const hashArray = Array.from(new Uint8Array(hashBuffer));
-const hashedPassword = hashArray.map(byte => byte.toString(16).padStart(2, '0')).join('');
-return hashedPassword;
+    const saltedPassword = salt + password;
+    const encoder = new TextEncoder();
+    const data = encoder.encode(saltedPassword);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    const hashedPassword = hashArray.map(byte => byte.toString(16).padStart(2, '0')).join('');
+    return hashedPassword;
 }
+
 async function fetchSaltFromDatabase(username) {
-try {
-    const payload = {
-        name: username,
-    };
-    const response = await fetch('https://api.decoderfontys.nl/User/getSalt', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(payload)
-    });
-    if (response.ok) {
-        const data = await response.json();
-        return data.salt;
-    } else {
+    try {
+        const payload = {
+            name: username,
+        };
+        const response = await fetch('https://api.decoderfontys.nl/User/getSalt', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        });
+        if (response.ok) {
+            const data = await response.json();
+            return data.salt;
+        } else {
+            return null;
+        }
+    } catch {
         return null;
     }
-} catch {
-    return null;
 }
-}
+
 document.getElementById('dropbox').addEventListener('click', function(event) {
     event.preventDefault();
     document.getElementById('fileInput').click();
 });
- 
+
 document.getElementById('fileInput').addEventListener('change', function() {
     const fileInput = this;
     const files = fileInput.files;
@@ -145,18 +155,21 @@ document.getElementById('fileInput').addEventListener('change', function() {
         document.getElementById('dropbox').innerHTML = `<p>Click or drop Python files here to upload</p>`;
     }
 });
+
 function uploadHash() {
     const hashInput = document.getElementById('hashInput').value.trim();
     if (hashInput === '') {
         return;
     } else {
         const requestData = { message: hashInput };
- 
+        const token = getCookie("JWT");
+
         fetch('https://api.decoderfontys.nl/File/sendMessage?message=' + hashInput, {
             method: 'POST',
             headers: {
                 'Accept': '*/*',
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${jwt}`
             },
             body: JSON.stringify(requestData)
         })
@@ -175,17 +188,21 @@ function uploadHash() {
         });
     }
 }
- 
+
 function uploadFile() {
     const files = document.getElementById('fileInput').files;
- 
+    const token = getCookie("JWT");
+
     if (files.length > 0) {
         const formData = new FormData();
         formData.append('file', files[0], files[0].name);
         formData.append('type', 'text/x-python');
- 
+
         fetch('https://api.decoderfontys.nl/file/upload', {
             method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${jwt}`
+            },
             body: formData
         })
         .then(response => {
@@ -197,6 +214,9 @@ function uploadFile() {
         .then(data => {
             console.log('Files uploaded successfully:', data);
             alert('Files uploaded successfully!');
+
+            document.getElementById('dropbox').classList.add('selected');
+            document.getElementById('dropbox').innerHTML = `<p>${files[0].name}</p>`;
         })
         .catch(error => {
             console.error('Error:', error);
@@ -205,24 +225,24 @@ function uploadFile() {
         alert('Please select files to upload');
     }
 }
- 
+
 function openWebSocket() {
     const socket = new WebSocket('ws://api.decoderfontys.nl/File/upload');
- 
+
     socket.addEventListener('open', function(event) {
         const progressContainer = document.getElementById('progressContainer');
         progressContainer.style.display = 'block';
     });
- 
+
     socket.addEventListener('message', function(event) {
         try {
             const message = JSON.parse(event.data);
             const triedPasswords = message.Tried_Passwords || 0;
             const elapsedTime = message.Elapsed_Time || 0;
- 
+
             const maxAttempts = 916132832;
             const progressPercent = (triedPasswords / maxAttempts) * 100;
- 
+
             const progressBar = document.getElementById('progressBar');
             const triedPasswordsText = document.getElementById('triedPasswords');
             const elapsedTimeText = document.getElementById('elapsedTime');
@@ -230,13 +250,13 @@ function openWebSocket() {
             progressBar.style.width = progressPercent + '%';
             triedPasswordsText.innerText = `Tried Passwords: ${triedPasswords}`;
             elapsedTimeText.innerText = `Elapsed Time: ${elapsedTime}s`;
- 
+
             if (message.Type === 'Password_Found') {
                 const foundPassword = document.getElementById('foundPassword');
                 foundPassword.value = message.Content;
                 foundPassword.style.display = 'block';
             }
- 
+
             if (progressPercent >= 100) {
                 const progressContainer = document.getElementById('progressContainer');
                 progressContainer.style.display = 'none';
@@ -245,13 +265,13 @@ function openWebSocket() {
             console.error('Error parsing WebSocket message:', error);
         }
     });
- 
+
     socket.addEventListener('error', function(event) {
         console.error('WebSocket error:', event);
         const progressContainer = document.getElementById('progressContainer');
         progressContainer.style.display = 'none';
     });
- 
+
     socket.addEventListener('close', function(event) {
         console.log('WebSocket connection closed');
         const progressContainer = document.getElementById('progressContainer');
