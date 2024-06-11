@@ -165,7 +165,7 @@ function uploadHash() {
                 'Accept': '*/*',
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
-             'Connection-Token': webSocketToken // Include WebSocket token in the headers
+             'Connection-Token': webSocketToken
             },
             
             body: JSON.stringify(requestData)
