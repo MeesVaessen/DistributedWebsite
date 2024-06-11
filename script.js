@@ -151,13 +151,16 @@ function uploadHash() {
     const hashInput = document.getElementById('hashInput').value.trim();
     if (hashInput === '') {
         return;
-        console.log(`Authorization: Bearer ${token}`);
     } else {
         const token = getCookie("JWT");
-        const webSocketToken = getCookie("WebSocketToken");
+        const webSocketToken = getCookie("Connection_Token");
+
+        console.log(`Authorization: Bearer ${token}`);
+        console.log(`WebSocket Token: ${webSocketToken}`);
+
         const requestData = { 
             message: hashInput,
-            connection_token: webSocketToken
+            Connection_Token: webSocketToken 
         };
 
         fetch('https://api.decoderfontys.nl/File/sendMessage', {
@@ -167,7 +170,6 @@ function uploadHash() {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
             },
-            
             body: JSON.stringify(requestData)
         })
         .then(response => {
@@ -185,7 +187,6 @@ function uploadHash() {
         });
     }
 }
-
 function uploadFile() {
     const files = document.getElementById('fileInput').files;
     const token = getCookie("JWT");
@@ -195,12 +196,15 @@ function uploadFile() {
         const formData = new FormData();
         formData.append('file', files[0], files[0].name);
         formData.append('type', 'text/x-python');
-        formData.append('connection_token', webSocketToken);
+        
         console.log(`Authorization: Bearer ${token}`);
-        fetch('https://api.decoderfontys.nl/file/upload', {
+        console.log(`WebSocket Token: ${webSocketToken}`);
+
+        fetch(`https://api.decoderfontys.nl/file/upload?connection_token=${webSocketToken}`, {
             method: 'POST',
             headers: {
-                'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${token}`,
+                'Accept': '*/*',
             },
             body: formData
         })
@@ -224,6 +228,9 @@ function uploadFile() {
         alert('Please select files to upload');
     }
 }
+
+
+    
 
 function openWebSocket() {
     const socket = new WebSocket('ws://api.decoderfontys.nl/File/upload');
