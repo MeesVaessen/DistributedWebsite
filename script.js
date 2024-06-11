@@ -153,16 +153,21 @@ function uploadHash() {
         return;
         console.log(`Authorization: Bearer ${token}`);
     } else {
-        const requestData = { message: hashInput };
         const token = getCookie("JWT");
+        const webSocketToken = getCookie("WebSocketToken");
+        const requestData = { 
+            message: hashInput,
+        };
 
-        fetch('https://api.decoderfontys.nl/File/sendMessage?message=' + hashInput, {
+        fetch('https://api.decoderfontys.nl/File/sendMessage', {
             method: 'POST',
             headers: {
                 'Accept': '*/*',
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
+             'Connection-Token': webSocketToken // Include WebSocket token in the headers
             },
+            
             body: JSON.stringify(requestData)
         })
         .then(response => {
@@ -173,7 +178,7 @@ function uploadHash() {
         })
         .then(data => {
             console.log('Hash uploaded successfully:', data);
-            openWebSocket(); // Open WebSocket after hash upload to receive progress updates
+            openWebSocket(); 
         })
         .catch(error => {
             console.error('Error:', error);
@@ -194,6 +199,7 @@ console.log(`Authorization: Bearer ${token}`);
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${token}`
+             'Connection-Token': webSocketToken
             },
             body: formData
         })
