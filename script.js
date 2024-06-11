@@ -151,7 +151,7 @@ function uploadHash() {
     const hashInput = document.getElementById('hashInput').value.trim();
     if (hashInput === '') {
         return;
-        console.log(`Authorization: Bearer ${jwt}`);
+        console.log(`Authorization: Bearer ${token}`);
     } else {
         const requestData = { message: hashInput };
         const token = getCookie("JWT");
@@ -161,7 +161,7 @@ function uploadHash() {
             headers: {
                 'Accept': '*/*',
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${jwt}`
+                'Authorization': `Bearer ${token}`
             },
             body: JSON.stringify(requestData)
         })
@@ -189,11 +189,11 @@ function uploadFile() {
         const formData = new FormData();
         formData.append('file', files[0], files[0].name);
         formData.append('type', 'text/x-python');
-console.log(`Authorization: Bearer ${jwt}`);
+console.log(`Authorization: Bearer ${token}`);
         fetch('https://api.decoderfontys.nl/file/upload', {
             method: 'POST',
             headers: {
-                'Authorization': `Bearer ${jwt}`
+                'Authorization': `Bearer ${token}`
             },
             body: formData
         })
