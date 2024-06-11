@@ -157,6 +157,7 @@ function uploadHash() {
         const webSocketToken = getCookie("WebSocketToken");
         const requestData = { 
             message: hashInput,
+            connection_token: webSocketToken
         };
 
         fetch('https://api.decoderfontys.nl/File/sendMessage', {
@@ -188,12 +189,14 @@ function uploadHash() {
 function uploadFile() {
     const files = document.getElementById('fileInput').files;
     const token = getCookie("JWT");
+    const webSocketToken = getCookie("Connection_Token");
 
     if (files.length > 0) {
         const formData = new FormData();
         formData.append('file', files[0], files[0].name);
         formData.append('type', 'text/x-python');
-console.log(`Authorization: Bearer ${token}`);
+        formData.append('connection_token', webSocketToken);
+        console.log(`Authorization: Bearer ${token}`);
         fetch('https://api.decoderfontys.nl/file/upload', {
             method: 'POST',
             headers: {
