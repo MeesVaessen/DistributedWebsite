@@ -16,9 +16,9 @@ body{
     background-color: #1c1e27;
     background-image: linear-gradient(43deg, #1c1e27 50%, #20222a 46%, #22242e 100% );
     background-repeat: no-repeat;
-    background-size: cover; /* Ensure the background covers the full viewport */
-    background-position: center; /* Center the background image */
-    font-family: "poppins", 'Montserrat', sans-serif; /* Combine font families */
+    background-size: cover;
+    background-position: center;
+    font-family: "poppins", 'Montserrat', sans-serif;
     overflow: hidden;
 }
  
@@ -198,6 +198,44 @@ bottom: 0;
     cursor: pointer;
     text-align: center;
 }
+ 
+#progressContainer {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50%;
+    background-color: #f3f3f3;
+    border: 1px solid #ccc;
+    display: none;
+    text-align: center;
+    padding: 20px;
+}
+ 
+#foundPassword{
+    background-color: transparent;
+    border: 1px rgba(255, 255, 255, 0.353) solid;
+    color: white;
+    padding: 10px;
+    border-radius: 3px;
+    margin-top: 20px;
+    width: 300px;
+    font-family: "poppins", 'Montserrat', sans-serif;
+}
+#progressBar {
+    width: 0;
+    height: 30px;
+    background-color: #4caf50;
+    margin-top: 10px;
+}
+ 
+#progressText {
+    margin-top: 10px;
+}
+ 
+#triedPasswords, #elapsedTime {
+    margin-top: 10px;
+}
 .headerDashboard h1{
     font-family: "Montserrat";
    
@@ -217,7 +255,17 @@ bottom: 0;
     border: 2px dashed green;
     color: green;
 }
-
+ 
+#progressBar {
+    width: 0%;
+    height: 2px;
+    background-color: #649568;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: none;
+}
+ 
 .dash{
     color: #649568;
     text-decoration:line-through    rgb(26, 28, 36);
