@@ -165,7 +165,6 @@ function uploadHash() {
                 'Accept': '*/*',
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
-             'Connection-Token': webSocketToken
             },
             
             body: JSON.stringify(requestData)
@@ -199,7 +198,6 @@ console.log(`Authorization: Bearer ${token}`);
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${token}`
-             'Connection-Token': webSocketToken
             },
             body: formData
         })
