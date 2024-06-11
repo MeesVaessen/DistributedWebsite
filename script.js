@@ -151,25 +151,23 @@ function uploadHash() {
     const hashInput = document.getElementById('hashInput').value.trim();
     if (hashInput === '') {
         return;
+        console.log(`Authorization: Bearer ${token}`);
     } else {
         const token = getCookie("JWT");
-        const webSocketToken = getCookie("Connection_Token");
-
-        console.log(`Authorization: Bearer ${token}`);
-        console.log(`WebSocket Token: ${webSocketToken}`);
-
+        webSocketToken = _webSocketToken;
         const requestData = { 
             message: hashInput,
-            Connection_Token: webSocketToken 
+            wsToken: webSocketToken
         };
 
-        fetch('https://api.decoderfontys.nl/File/sendMessage', {
+        fetch('Https://api.decoderfontys.nl/File/sendMessage?message=' , {
             method: 'POST',
             headers: {
                 'Accept': '*/*',
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
             },
+            
             body: JSON.stringify(requestData)
         })
         .then(response => {
@@ -187,26 +185,24 @@ function uploadHash() {
         });
     }
 }
+const _webSocketToken;
 function uploadFile() {
     const files = document.getElementById('fileInput').files;
     const token = getCookie("JWT");
-    const webSocketToken = getCookie("Connection_Token");
+    const webSocketToken = _webSocketToken;
 
     if (files.length > 0) {
         const formData = new FormData();
         formData.append('file', files[0], files[0].name);
         formData.append('type', 'text/x-python');
-        
         console.log(`Authorization: Bearer ${token}`);
-        console.log(`WebSocket Token: ${webSocketToken}`);
-
-        fetch(`https://api.decoderfontys.nl/file/upload?connection_token=${webSocketToken}`, {
+        fetch('https://api.decoderfontys.nl/file/upload', {
             method: 'POST',
             headers: {
-                'Authorization': `Bearer ${token}`,
-                'Accept': '*/*',
+                'Authorization': `Bearer ${token}`
             },
-            body: formData
+            body: formData,
+            webSocketToken
         })
         .then(response => {
             if (!response.ok) {
@@ -228,9 +224,6 @@ function uploadFile() {
         alert('Please select files to upload');
     }
 }
-
-
-    
 
 function openWebSocket() {
     const socket = new WebSocket('ws://api.decoderfontys.nl/File/upload');
@@ -261,6 +254,10 @@ function openWebSocket() {
                 const foundPassword = document.getElementById('foundPassword');
                 foundPassword.value = message.Content;
                 foundPassword.style.display = 'block';
+            }
+
+            if (message.Type === 'Connection_Token') {
+                _webSocketToken = message.Content;
             }
 
             if (progressPercent >= 100) {
