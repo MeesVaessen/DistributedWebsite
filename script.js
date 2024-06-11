@@ -160,6 +160,7 @@ function uploadHash() {
     const hashInput = document.getElementById('hashInput').value.trim();
     if (hashInput === '') {
         return;
+        console.log(`Authorization: Bearer ${jwt}`);
     } else {
         const requestData = { message: hashInput };
         const token = getCookie("JWT");
@@ -197,7 +198,7 @@ function uploadFile() {
         const formData = new FormData();
         formData.append('file', files[0], files[0].name);
         formData.append('type', 'text/x-python');
-
+console.log(`Authorization: Bearer ${jwt}`);
         fetch('https://api.decoderfontys.nl/file/upload', {
             method: 'POST',
             headers: {
