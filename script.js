@@ -178,7 +178,6 @@ function uploadHash() {
         })
         .then(data => {
             console.log('Hash uploaded successfully:', data);
-            openWebSocket(); 
         })
         .catch(error => {
             console.error('Error:', error);
@@ -228,7 +227,8 @@ function uploadFile() {
 }
 
 function openWebSocket() {
-    const socket = new WebSocket('ws://websocket.decoderfontys.nl');
+    console.log("open websocket method");
+    const socket = new WebSocket('wss://websocket.decoderfontys.nl/');
     console.log("Creating connection");
                 
     socket.addEventListener('open', function(event) {
