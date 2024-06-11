@@ -237,6 +237,7 @@ function openWebSocket() {
     socket.addEventListener('message', function(event) {
         try {
             const message = JSON.parse(event.data);
+            console.log(message);
             const triedPasswords = message.Tried_Passwords || 0;
             const elapsedTime = message.Elapsed_Time || 0;
 
