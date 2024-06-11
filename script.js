@@ -160,7 +160,7 @@ function uploadHash() {
             wsToken: _webSocketToken
         };
 
-        fetch('Https://api.decoderfontys.nl/File/sendMessage?message=' , {
+        fetch('Https://api.decoderfontys.nl/File/sendMessage?message='+hashInput+'&wsToken='+_webSocketToken , {
             method: 'POST',
             headers: {
                 'Accept': '*/*',
