@@ -228,8 +228,10 @@ function uploadFile() {
 
 function openWebSocket() {
     const socket = new WebSocket('ws://websocket.decoderfontys.nl');
-
+    console.log("Creating connection");
+                
     socket.addEventListener('open', function(event) {
+        console.log("open connection");
         const progressContainer = document.getElementById('progressContainer');
         progressContainer.style.display = 'block';
     });
@@ -271,6 +273,45 @@ function openWebSocket() {
             console.error('Error parsing WebSocket message:', error);
         }
     });
+
+    socket.onmessage = function (event) {
+        console.log(event.data);
+        try {
+            const message = JSON.parse(event.data);
+            console.log(message);
+            const triedPasswords = message.Tried_Passwords || 0;
+            const elapsedTime = message.Elapsed_Time || 0;
+
+            const maxAttempts = 916132832;
+            const progressPercent = (triedPasswords / maxAttempts) * 100;
+
+            const progressBar = document.getElementById('progressBar');
+            const triedPasswordsText = document.getElementById('triedPasswords');
+            const elapsedTimeText = document.getElementById('elapsedTime');
+           
+            progressBar.style.width = progressPercent + '%';
+            triedPasswordsText.innerText = `Tried Passwords: ${triedPasswords}`;
+            elapsedTimeText.innerText = `Elapsed Time: ${elapsedTime}s`;
+
+            if (message.Type === 'Password_Found') {
+                const foundPassword = document.getElementById('foundPassword');
+                foundPassword.value = message.Content;
+                foundPassword.style.display = 'block';
+            }
+
+            if (message.Type === 'Connection_Token') {
+                _webSocketToken = message.Content;
+                console.log("Connection Token recieved: ", _webSocketToken);
+            }
+
+            if (progressPercent >= 100) {
+                const progressContainer = document.getElementById('progressContainer');
+                progressContainer.style.display = 'none';
+            }
+        } catch (error) {
+            console.error('Error parsing WebSocket message:', error);
+        }
+    };
 
     socket.addEventListener('error', function(event) {
         console.error('WebSocket error:', event);
