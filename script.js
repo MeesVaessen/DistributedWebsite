@@ -115,8 +115,6 @@ async function fetchSaltFromDatabase(username) {
         return null;
     }
 }
-window.onload = openWebSocket();
-
 document.getElementById('dropbox').addEventListener('click', function(event) {
     event.preventDefault();
     document.getElementById('fileInput').click();
