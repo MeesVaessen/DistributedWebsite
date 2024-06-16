@@ -198,7 +198,7 @@ bottom: 0;
     cursor: pointer;
     text-align: center;
 }
- #overlay {
+#overlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -213,16 +213,27 @@ bottom: 0;
 }
 
 #progressContainer {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
     width: 50%;
     background-color: #f3f3f3;
     border: 1px solid #ccc;
-    display: none;
     text-align: center;
     padding: 20px;
+}
+
+#loadingBar {
+    width: 100%;
+    height: 30px;
+    background-color: #4caf50;
+    animation: loading 2s infinite;
+}
+
+@keyframes loading {
+    0% { width: 0%; }
+    100% { width: 100%; }
+}
+
+#triedPasswords, #elapsedTime {
+    margin-top: 10px;
 }
  
 #foundPassword{
