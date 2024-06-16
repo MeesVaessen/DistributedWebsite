@@ -241,24 +241,19 @@ socket.addEventListener('message', function(event) {
         const triedPasswords = message.Tried_Passwords || 0;
         const elapsedTime = message.Elapsed_Time || 0;
 
-        const maxAttempts = 916132832;
-        const progressPercent = (triedPasswords / maxAttempts) * 100;
-
         const overlay = document.getElementById('overlay');
-        const progressBar = document.getElementById('progressBar');
+        const foundPassword = document.getElementById('foundPassword');
         const triedPasswordsText = document.getElementById('triedPasswords');
         const elapsedTimeText = document.getElementById('elapsedTime');
-       
-        overlay.style.display = 'flex'; 
-        progressBar.style.width = progressPercent + '%';
+
+        overlay.style.display = 'flex';
         triedPasswordsText.innerText = `Tried Passwords: ${triedPasswords}`;
         elapsedTimeText.innerText = `Elapsed Time: ${elapsedTime}s`;
 
         if (message.Type === 'Password_Found') {
-            const foundPassword = document.getElementById('foundPassword');
             foundPassword.value = message.Content;
             foundPassword.style.display = 'block';
-            overlay.style.display = 'none'; 
+            overlay.style.display = 'none';
         }
 
         if (message.Type === 'Connection_Token') {
@@ -266,15 +261,10 @@ socket.addEventListener('message', function(event) {
             setCookie('wsToken', _webSocketToken, 3);
             console.log("Connection Token received: ", _webSocketToken);
         }
-
-        if (progressPercent >= 100) {
-            overlay.style.display = 'none';  // Hide the overlay when progress is complete
-        }
     } catch (error) {
         console.error('Error parsing WebSocket message:', error);
     }
 });
-
 
     // socket.onmessage = function (event) {
     //     console.log(event.data);
