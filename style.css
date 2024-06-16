@@ -204,34 +204,75 @@ bottom: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.8);
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 1000;
-    display: none;
 }
 
 #progressContainer {
-    width: 50%;
-    background-color: #f3f3f3;
-    border: 1px solid #ccc;
     text-align: center;
-    padding: 20px;
+    color: white;
+}
+
+#loadingText {
+    margin-bottom: 10px;
+    font-size: 24px;
+    font-weight: bold;
+    font-family:'Montserrat';
+}
+
+#loadingBarContainer {
+    width: 300px;
+    height: 20px;
+    margin: 0 auto;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 6px;
+    overflow: hidden;
 }
 
 #loadingBar {
-    width: 100%;
-    height: 30px;
+    width: 0;
+    height: 100%;
     background-color: #4caf50;
     animation: loading 2s infinite;
 }
 
 @keyframes loading {
-    0% { width: 0%; }
+    0%, 100% {
+        width: 0;
+    }
+    50% {
+        width: 100%;
+    }
+}
+
+@keyframes loading {
+    0% { width: 0; }
     100% { width: 100%; }
 }
 
+.info {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    margin-top: 20px;
+    color: white;
+}
+
+.info p {
+    margin: 0;
+}
+
+#foundPassword {
+    display: none;
+    margin-top: 20px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 80%;
+}
 #triedPasswords, #elapsedTime {
     margin-top: 10px;
 }
