@@ -234,27 +234,34 @@ bottom: 0;
     border-radius: 6px;
     overflow: hidden;
 }
-
+#infoContainer{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    margin: 10px;
+    font-size: 16px;
+}
 #loadingBar {
-    width: 0;
-    height: 100%;
-    background-color: #4caf50;
-    animation: loading 2s infinite;
+ height: 100%;
+    width: 100%;
+    --c: no-repeat linear-gradient(#4caf50 0 0);
+    background: var(--c), var(--c), rgba(255, 255, 255, 0.296);
+    background-size: 60% 100%;
+    animation: loading 3s infinite;
 }
 
 @keyframes loading {
-    0%, 100% {
-        width: 0;
+    0% {
+        background-position: -150% 0, -150% 0;
     }
-    50% {
-        width: 100%;
+    66% {
+        background-position: 250% 0, -150% 0;
+    }
+    100% {
+        background-position: 250% 0, 250% 0;
     }
 }
 
-@keyframes loading {
-    0% { width: 0; }
-    100% { width: 100%; }
-}
 
 .info {
     display: flex;
