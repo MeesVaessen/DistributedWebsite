@@ -159,7 +159,10 @@ function uploadHash() {
             message: hashInput,
             wsToken: _webSocketToken
         };
-
+        
+const overlay = document.getElementById('overlay');
+        overlay.style.display = 'block';
+        
         fetch('Https://api.decoderfontys.nl/File/sendMessage?message='+hashInput+'&wsToken='+_webSocketToken , {
             method: 'POST',
             headers: {
@@ -197,6 +200,10 @@ function uploadFile() {
         formData.append('file', files[0], files[0].name);
         formData.append('type', 'text/x-python');
         console.log(`Authorization: Bearer ${token}`);
+        
+        const overlay = document.getElementById('overlay');
+        overlay.style.display = 'block';
+        
         fetch('https://api.decoderfontys.nl/file/upload?wsToken='+ webSocketToken, {
             method: 'POST',
             headers: {
@@ -267,7 +274,7 @@ function openWebSocket() {
 
             if (progressPercent >= 100) {
                 const progressContainer = document.getElementById('progressContainer');
-                progressContainer.style.display = 'none';
+                overlay.style.display = 'none';
             }
         } catch (error) {
             console.error('Error parsing WebSocket message:', error);
