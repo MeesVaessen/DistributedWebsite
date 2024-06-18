@@ -262,7 +262,6 @@ function openWebSocket() {
 
             if (message.Type === 'Connection_Token') {
                 _webSocketToken = message.Content;
-                setCookie(wsToken,_webSocketToken,3)
                 console.log("Connection Token recieved: ", _webSocketToken);
             }
 
