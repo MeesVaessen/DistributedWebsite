@@ -201,9 +201,6 @@ function uploadFile() {
         formData.append('type', 'text/x-python');
         console.log(`Authorization: Bearer ${token}`);
         
-        const overlay = document.getElementById('overlay');
-        overlay.style.display = 'block';
-        
         fetch('https://api.decoderfontys.nl/file/upload?wsToken='+ webSocketToken, {
             method: 'POST',
             headers: {
