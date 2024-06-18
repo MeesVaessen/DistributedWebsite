@@ -262,6 +262,7 @@ function openWebSocket() {
                 const foundPassword = document.getElementById('foundPassword');
                 foundPassword.value = message.Content;
                 foundPassword.style.display = 'block';
+                overlay.style.display = "none";
             }
 
             if (message.Type === 'Connection_Token') {
