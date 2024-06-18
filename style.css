@@ -198,93 +198,31 @@ bottom: 0;
     cursor: pointer;
     text-align: center;
 }
-#overlay {
+ #overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.8);
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
     justify-content: center;
     align-items: center;
     z-index: 1000;
+    display: none;
 }
 
 #progressContainer {
-    text-align: center;
-    color: white;
-    position: absolute;
+    position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-}
-
-#loadingText {
-    margin-bottom: 20px;
-    font-size: 24px;
-    font-weight: bold;
-    font-family:'Montserrat';
-}
-
-#loadingBarContainer {
-    width: 300px;
-    height: 20px;
-    margin: 0 auto;
-    background-color: rgba(255, 255, 255, 0.2);
-    border-radius: 6px;
-    overflow: hidden;
-}
-#infoContainer{
-    display: flex;
-    justify-content: space-between;
-    flex-direction: column;
-    margin: 10px;
-    font-size: 16px;
-}
-#loadingBar {
- height: 100%;
-    width: 100%;
-    --c: no-repeat linear-gradient(#4caf50 0 0);
-    background: var(--c), var(--c), rgba(255, 255, 255, 0.296);
-    background-size: 60% 100%;
-    animation: loading 3s infinite;
-}
-
-@keyframes loading {
-    0% {
-        background-position: -150% 0, -150% 0;
-    }
-    66% {
-        background-position: 250% 0, -150% 0;
-    }
-    100% {
-        background-position: 250% 0, 250% 0;
-    }
-}
-
-
-.info {
-    display: flex;
-    justify-content: space-around;
-    width: 100%;
-    margin-top: 20px;
-    color: white;
-}
-
-.info p {
-    margin: 0;
-}
-
-#foundPassword {
-    display: none;
-    margin-top: 20px;
-    padding: 5px;
+    width: 50%;
+    background-color: #f3f3f3;
     border: 1px solid #ccc;
-    border-radius: 5px;
-    width: 80%;
-}
-#triedPasswords, #elapsedTime {
-    margin-top: 10px;
+    display: none;
+    text-align: center;
+    padding: 20px;
 }
  
 #foundPassword{
