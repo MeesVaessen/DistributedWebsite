@@ -233,7 +233,7 @@ function openWebSocket() {
     socket.addEventListener('open', function(event) {
         console.log("open connection");
         const progressContainer = document.getElementById('progressContainer');
-        progressContainer.style.display = 'block';
+        overlay.style.display = 'block';
     });
 
     socket.addEventListener('message', function(event) {
@@ -268,7 +268,7 @@ function openWebSocket() {
 
             if (progressPercent >= 100) {
                 const progressContainer = document.getElementById('progressContainer');
-                progressContainer.style.display = 'none';
+                overlay.style.display = 'none';
             }
         } catch (error) {
             console.error('Error parsing WebSocket message:', error);
