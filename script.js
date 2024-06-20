@@ -240,23 +240,27 @@ function openWebSocket() {
         progressContainer.style.display = 'block';
     });
 
-    socket.addEventListener('message', function(event) {
-        try {
-            const message = JSON.parse(event.data);
-            console.log(message);
-            const triedPasswords = message.Tried_Passwords || 0;
-            const elapsedTime = message.Elapsed_Time || 0;
+   socket.addEventListener('message', function(event) {
+    try {
+        const message = JSON.parse(event.data);
+        console.log(message);
+        const triedPasswords = message.Tried_Passwords || 0;
+        const elapsedTime = message.Elapsed_Time || 0;
 
-            const maxAttempts = 916132832;
-            const progressPercent = (triedPasswords / maxAttempts) * 100;
+        const maxAttempts = 916132832;
+        const progressPercent = (triedPasswords / maxAttempts) * 100;
 
-            const progressBar = document.getElementById('progressBar');
-            const triedPasswordsText = document.getElementById('triedPasswords');
-            const elapsedTimeText = document.getElementById('elapsedTime');
-           
+        const progressBar = document.getElementById('progressBar');
+        const triedPasswordsText = document.getElementById('triedPasswords');
+        const elapsedTimeText = document.getElementById('elapsedTime');
+
+        const minutes = Math.floor(elapsedTime / 60);
+        const seconds = elapsedTime % 60;
+        const formattedTime = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+
             progressBar.style.width = progressPercent + '%';
             triedPasswordsText.innerText = `Tried Passwords: ${triedPasswords}`;
-            elapsedTimeText.innerText = `Elapsed Time: ${elapsedTime}s`;
+            elapsedTimeText.textContent = `Elapsed Time: ${formattedTime}`;
 
             if (message.Type === 'Password_Found') {
                 const foundPassword = document.getElementById('foundPassword');
