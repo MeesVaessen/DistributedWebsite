@@ -258,8 +258,10 @@ function openWebSocket() {
         const seconds = (elapsedTime % 60).toFixed(1);
         const formattedTime = `${minutes}:${seconds.toString().padStart(4, '0')}`;
         
+        const triedPasswordsFormatted = (triedPasswords / 1_000_000).toFixed(2);
+        
         progressBar.style.width = progressPercent + '%';
-        triedPasswordsText.innerText = `Tried Passwords: ${triedPasswords}`;
+        triedPasswordsText.innerText = `Tried Passwords: ${triedPasswordsFormatted}`;
         elapsedTimeText.textContent = `Elapsed Time: ${formattedTime}`;
 
             if (message.Type === 'Password_Found') {
