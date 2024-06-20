@@ -258,13 +258,13 @@ function openWebSocket() {
         const seconds = (elapsedTime % 60).toFixed(1);
         const formattedTime = `${minutes}:${seconds.toString().padStart(4, '0')}`;
         
-          let triedPasswordsFormatted;
+        let triedPasswordsFormatted;
         if (triedPasswords >= 1_000_000_000) {
             triedPasswordsFormatted = (triedPasswords / 1_000_000_000).toFixed(0) + 'B';
         } else if (triedPasswords >= 1_000_000) {
-            triedPasswordsFormatted = (triedPasswords / 1_000_000).toFixed(1) + 'M';
+            triedPasswordsFormatted = Math.round(triedPasswords / 1_000_000) + 'M';
         } else {
-            triedPasswordsFormatted = (triedPasswords / 1_000_000).toFixed(2) + 'M';
+            triedPasswordsFormatted = Math.round(triedPasswords / 1_000_000) + 'M';
         }
         progressBar.style.width = progressPercent + '%';
         triedPasswordsText.innerText = `Tried Passwords: ${triedPasswordsFormatted}`;
