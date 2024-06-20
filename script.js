@@ -254,10 +254,10 @@ function openWebSocket() {
         const triedPasswordsText = document.getElementById('triedPasswords');
         const elapsedTimeText = document.getElementById('elapsedTime');
 
-        const minutes = Math.floor(elapsedTime / 60);
-        const seconds = elapsedTime % 60;
-        const formattedTime = `${minutes}:${seconds.toString().padStart(2, '0')}`;
-
+         const minutes = Math.floor(elapsedTime / 60);
+        const seconds = (elapsedTime % 60).toFixed(1);
+        const formattedTime = `${minutes}:${seconds.toString().padStart(4, '0')}`;
+        
         progressBar.style.width = progressPercent + '%';
         triedPasswordsText.innerText = `Tried Passwords: ${triedPasswords}`;
         elapsedTimeText.textContent = `Elapsed Time: ${formattedTime}`;
