@@ -258,9 +258,9 @@ function openWebSocket() {
         const seconds = elapsedTime % 60;
         const formattedTime = `${minutes}:${seconds.toString().padStart(2, '0')}`;
 
-            progressBar.style.width = progressPercent + '%';
-            triedPasswordsText.innerText = `Tried Passwords: ${triedPasswords}`;
-            elapsedTimeText.textContent = `Elapsed Time: ${formattedTime}`;
+        progressBar.style.width = progressPercent + '%';
+        triedPasswordsText.innerText = `Tried Passwords: ${triedPasswords}`;
+        elapsedTimeText.textContent = `Elapsed Time: ${formattedTime}`;
 
             if (message.Type === 'Password_Found') {
                 const foundPassword = document.getElementById('foundPassword');
